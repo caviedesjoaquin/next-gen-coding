@@ -42,7 +42,8 @@ def chunk_documents(documents):
 # cada vez que se reciba un prompt del usuario
 def store_in_chromadb(chunks, embeddings_model):
     report = 'RetoRAG'
-    db_path = os.environ.get("CHROMA_DATA_PATH", "./chroma")
+    #db_path = os.environ.get("CHROMA_DATA_PATH", "./chroma")
+    db_path='/chroma_db'
     if not os.path.exists(db_path):
         # Create the vector store and persist it
         vector_store = Chroma.from_documents(chunks, embeddings_model, collection_name=report,persist_directory=db_path)
