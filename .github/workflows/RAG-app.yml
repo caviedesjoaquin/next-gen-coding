@@ -16,4 +16,5 @@ jobs:
     - name: Run the notebook
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        CHROMA_DATA_PATH: ${{ github.workspace }}/chroma
       run: python notebook_rag.py
