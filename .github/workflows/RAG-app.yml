@@ -13,6 +13,8 @@ jobs:
         python-version: '3.10'
     - name: Install dependencies
       run: pip install -r requirements.txt
+    - name: Prepare ChromaDB data directory
+      run: mkdir -p ${{ github.workspace }}/chroma
     - name: Run the notebook
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
