@@ -17,4 +17,4 @@ jobs:
     - name: Run the notebook
       env:
         OPENAI_API_KEY:${{ secrets.OPENAI_API_KEY }}
-      run: python RETO_RAG_FINAL.py
+      run: python notebook_rag.py
