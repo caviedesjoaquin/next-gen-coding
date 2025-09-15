@@ -115,7 +115,7 @@ def main(file_paths, question):
 
 # Porgram Principal
 if __name__ == "__main__":
-    file_paths = ['V-GEL Información ES PDF.pdf', 'Generacion de Codigo con  AI generativa/Reto1/RETO_RAG.pdf']
+    file_paths = ['V-GEL Información ES PDF.pdf', 'RETO_RAG.pdf']
     # Primera pregunta
     question = "¿Cuáles son las instrucciones para el alumno en la Actividad: Creación de un sistema RAG sencillo?"
     answer = main(file_paths, question)
