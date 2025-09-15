@@ -14,7 +14,9 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
     - name: Prepare ChromaDB data directory
-      run: mkdir -p ${{ github.workspace }}/chroma
+      run: |
+        mkdir -p ${{ github.workspace }}/chroma
+        chmod 777 ${{ github.workspace }}/chroma
     - name: Run the notebook
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
