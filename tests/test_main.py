@@ -1,4 +1,4 @@
-from notebook_rag import main
+from main import main
 
 def test_main():
   file_paths = ['V-GEL Información ES PDF.pdf', 'RETO_RAG.pdf']
