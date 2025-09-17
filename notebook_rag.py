@@ -101,7 +101,7 @@ def generate_answer(prompt):
 
 # Paso 8: Función principal
 
-def prgunta_LLM(file_paths, question):
+def Pregunta_LLM(file_paths, question):
     # Cargamos los documentos
     documents = load_documents(file_paths)
     # Fragmentamos los documentos
@@ -124,10 +124,10 @@ if __name__ == "__main__":
     file_paths = ['V-GEL Información ES PDF.pdf', 'RETO_RAG.pdf']
     # Primera pregunta
     question = "¿Cuáles son las instrucciones para el alumno en la Actividad: Creación de un sistema RAG sencillo?"
-    answer = pregunta_LLM(file_paths, question)
+    answer = Pregunta_LLM(file_paths, question)
     print(f"Pregunta : {question}. \nRespuesta: {answer.content}\n\n")
     # Segunta pregunta
     question = "Cuales son las ventajas de v-gel?"
-    answer = pregunta_LLM(file_paths, question)
+    answer = Pregunta_LLM(file_paths, question)
     print(f"Pregunta : {question}. \nRespuesta: {answer.content}\n\n")
 
