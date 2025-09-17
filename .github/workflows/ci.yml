@@ -31,4 +31,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
 
       - name: Ejecutar pruebas
-        run: pytest --maxfail=1 --disable-warnings -q
+        env:
+          PYTHONPATH: .
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
