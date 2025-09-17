@@ -33,5 +33,6 @@ jobs:
       - name: Ejecutar pruebas
         env:
           PYTHONPATH: .
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           pytest --maxfail=1 --disable-warnings -q
