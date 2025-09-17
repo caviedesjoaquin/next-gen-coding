@@ -56,7 +56,7 @@ def store_in_chromadb(chunks, embeddings_model):
                                              persist_directory=db_path)
     else:
         # Load the existing vector store
-        vector_store = Chroma(persist_directory=db_path, 
+        vector_store = Chroma(persist_directory=db_path,
                               embedding_function=embeddings_model,
                               collection_name=report)
     return vector_store
