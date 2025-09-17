@@ -12,6 +12,7 @@ api_key = os.environ.get('OPENAI_API_KEY')
 # Paso 1: Función para cargar documentos
 # Dependiendo del tipo de archivo (pdf o txt) llama la función requerida
 
+
 def load_documents(file_paths):
     documents = []
     for file_path in file_paths:
@@ -27,8 +28,11 @@ def load_documents(file_paths):
 # Paso 2: Función para dividir texto en fragmentos
 # Divide el texto en chunks de tamaño 1000 con un overlap de 200 para mantener
 # la continuidad de la información
+
+
 def chunk_documents(documents):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
+                                                   chunk_overlap=200)
     return text_splitter.split_documents(documents)
 
 # Paso 3: Función para crear embeddings
@@ -41,19 +45,25 @@ def chunk_documents(documents):
 # Esto para evitar que se tenga que generar desde 0 la base de datos,
 # cada vez que se reciba un prompt del usuario
 
+
 def store_in_chromadb(chunks, embeddings_model):
     report = 'RetoRAG'
     db_path = './chroma_db'
     if not os.path.exists(db_path):
         # Create the vector store and persist it
-        vector_store = Chroma.from_documents(chunks, embeddings_model, collection_name=report, persist_directory=db_path)
+        vector_store = Chroma.from_documents(chunks, embeddings_model, 
+                                             collection_name=report, 
+                                             persist_directory=db_path)
     else:
         # Load the existing vector store
-        vector_store = Chroma(persist_directory=db_path, embedding_function=embeddings_model, collection_name=report)
+        vector_store = Chroma(persist_directory=db_path, 
+                              embedding_function=embeddings_model, 
+                              collection_name=report)
     return vector_store
 
 # Paso 5: Recuperar información relevante
 # Obtenemos los 5 primeros fragmentos relevantes de la base de datos
+
 
 def retrieve_relevant_info(question, vector_store):
     docs = vector_store.similarity_search(question, k=5)
@@ -63,13 +73,14 @@ def retrieve_relevant_info(question, vector_store):
 # Generamos el prompt usando el prompt del usuario, mas los
 # fragmentos relevantes
 
+
 def generate_prompt(question, relevant_docs):
-    limit=3750
+    limit = 3750
     # Extraemos el contexto de los documentos
     contexts = [doc.page_content for doc in relevant_docs]
     # build our prompt with the retrieved contexts included
     prompt_start = (
-        "Answer the question based on the context below.\n\n"+
+        "Answer the question based on the context below.\n\n" +
         "Context:\n"
     )
     prompt_end = (
@@ -95,11 +106,13 @@ def generate_prompt(question, relevant_docs):
 # Paso 7: Generar respuesta usando GPT-4
 # Enviamos el prompt al modelo
 
+
 def generate_answer(prompt):
     llm = ChatOpenAI(model_name="gpt-4", api_key=api_key, temperature=0)
     return llm.invoke(prompt)
 
 # Paso 8: Función principal
+
 
 def Pregunta_LLM(file_paths, question):
     # Cargamos los documentos
@@ -107,9 +120,9 @@ def Pregunta_LLM(file_paths, question):
     # Fragmentamos los documentos
     chunks = chunk_documents(documents)
     # Definimos la función que realizara los embeddings
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-small",api_key=api_key)
+    embeddings = OpenAIEmbeddings(model = "text-embedding-3-small", api_key = api_key)
     # Creamos o guardamos la base de datos de vactores
-    vector_store = store_in_chromadb(chunks,embeddings)
+    vector_store = store_in_chromadb(chunks, embeddings)
     # Busacamos los vectores mas relevantes
     relevant_docs = retrieve_relevant_info(question, vector_store)
     # Generamos el prompt usando la pregunta y el contexto obetenido
@@ -119,6 +132,7 @@ def Pregunta_LLM(file_paths, question):
     return answer
 
 # Porgram Principal
+
 
 if __name__ == "__main__":
     file_paths = ['V-GEL Información ES PDF.pdf', 'RETO_RAG.pdf']
@@ -130,4 +144,3 @@ if __name__ == "__main__":
     question = "Cuales son las ventajas de v-gel?"
     answer = Pregunta_LLM(file_paths, question)
     print(f"Pregunta : {question}. \nRespuesta: {answer.content}\n\n")
-
