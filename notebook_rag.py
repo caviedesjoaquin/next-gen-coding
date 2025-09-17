@@ -31,7 +31,7 @@ def load_documents(file_paths):
 
 
 def chunk_documents(documents):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
                                                    chunk_overlap=200)
     return text_splitter.split_documents(documents)
 
@@ -51,13 +51,13 @@ def store_in_chromadb(chunks, embeddings_model):
     db_path = './chroma_db'
     if not os.path.exists(db_path):
         # Create the vector store and persist it
-        vector_store = Chroma.from_documents(chunks, embeddings_model, 
-                                             collection_name=report, 
+        vector_store = Chroma.from_documents(chunks, embeddings_model,
+                                             collection_name=report,
                                              persist_directory=db_path)
     else:
         # Load the existing vector store
         vector_store = Chroma(persist_directory=db_path, 
-                              embedding_function=embeddings_model, 
+                              embedding_function=embeddings_model,
                               collection_name=report)
     return vector_store
 
@@ -120,7 +120,7 @@ def Pregunta_LLM(file_paths, question):
     # Fragmentamos los documentos
     chunks = chunk_documents(documents)
     # Definimos la función que realizara los embeddings
-    embeddings = OpenAIEmbeddings(model = "text-embedding-3-small", api_key = api_key)
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
     # Creamos o guardamos la base de datos de vactores
     vector_store = store_in_chromadb(chunks, embeddings)
     # Busacamos los vectores mas relevantes
